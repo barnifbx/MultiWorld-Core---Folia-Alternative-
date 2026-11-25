@@ -1,8 +1,153 @@
-# MultiWorld-Core
+<div align="center">
 
-A Multiverse-Core style world manager for **Folia** — Created by the FlowSMP Team AKA FlowStudios.
+# 🌍 MultiWorld-Core
 
-Folia stubs out `Bukkit#createWorld`, so worlds are created through server internals.
-The world-creation sequence is adapted from [MoreFoWorld](https://github.com/Folia-Inquisitors/MoreFoWorld) (MIT).
+**A Multiverse-style world manager built for Folia.**
 
-Build: push to `main`; GitHub Actions builds the jar and attaches it to a release.
+Create, import and manage as many worlds as you want on a Folia server, with per-world rules, linked portals and clickable chat menus.
+
+![Folia](https://img.shields.io/badge/Folia-26.1.2-FF00BA?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-25-orange?style=for-the-badge)
+![Build](https://img.shields.io/github/actions/workflow/status/barnifbx/MultiWorld-Core/build.yml?style=for-the-badge&label=build)
+
+*Created by the FlowSMP Team AKA FlowStudios. Made for [FlowSMP](https://flowsmp.net).*
+
+[**⬇ Download the latest jar**](https://github.com/barnifbx/MultiWorld-Core/raw/dist/MultiWorld-Core.jar) · [Releases](https://github.com/barnifbx/MultiWorld-Core/releases)
+
+</div>
+
+---
+
+## Why?
+
+Folia has no working Bukkit world API. `Bukkit#createWorld` is stubbed out, so Multiverse-Core and most other world managers don't work on it.
+MultiWorld-Core creates worlds through Folia's own server internals. Everything else runs on the correct region thread, so the plugin is fully `folia-supported`.
+
+## ✨ Features
+
+| | |
+|---|---|
+| 🌐 **World creation** | Normal, nether and end worlds. Types: `normal`, `flat`, `amplified`, `large_biomes` and an empty `void` type with a spawn platform. Optional seed, custom generator plugins, structures on/off. |
+| 📦 **Import** | Upload any world folder and load it with one command. |
+| ⚙️ **Per-world rules** | Gamemode (enforced), difficulty, PvP, hunger, weather, animal/monster spawning, custom spawn point, respawn world, alias, hidden worlds. |
+| 🔒 **Access control** | Lock a world behind `multiworld.access.<world>`. |
+| 🌀 **Linked portals** | Send nether and end portals of one world to another world. Coordinates are scaled 8:1 for the nether, and a portal or end platform is built when none exists. |
+| 🎮 **Gamerules** | Set any gamerule in any world without being there. |
+| 💬 **Clickable chat** | Click a world in `/mw list` to teleport. Click to confirm deletion. Every message can be edited in `messages.yml` (hex colors supported). |
+| 🧵 **Folia-safe** | Region, entity and global schedulers are used everywhere. Players are never touched from the wrong thread. |
+
+## 📥 Installation
+
+1. Download [`MultiWorld-Core.jar`](https://github.com/barnifbx/MultiWorld-Core/raw/dist/MultiWorld-Core.jar).
+2. Put it in your server's `plugins/` folder.
+3. Restart the server. Your existing worlds are registered automatically.
+
+**Requires:** Folia **26.1.2** and Java 25.
+
+## 🧭 Commands
+
+Main command `/multiworld`. Aliases: `/mw`, `/mwc`, `/mv`.
+
+| Command | Description |
+|---|---|
+| `/mw list` | All worlds, clickable to teleport |
+| `/mw info [world]` | Every setting of a world |
+| `/mw who [world]` | Players in a world |
+| `/mw tp <world> [player]` | Teleport to a world's spawn |
+| `/mw spawn [player]` | Go to the spawn of your current world |
+| `/mw setspawn` | Set the world spawn to your position |
+| `/mw create <name> <normal\|nether\|end> [-t type] [-s seed] [-g generator] [-n]` | Create a world (`-n` = no structures) |
+| `/mw import <name> <normal\|nether\|end> [-g generator]` | Load an uploaded world folder |
+| `/mw load <world>` | Load a registered world that isn't loaded |
+| `/mw remove <world>` | Stop managing a world (files are kept) |
+| `/mw delete <world>` → `/mw confirm` | Delete a world. Players are moved out, files are removed on the next restart. |
+| `/mw modify <world> <setting> <value>` | Change a world setting (see below) |
+| `/mw gamerule <world> <rule> <value>` | Set a gamerule |
+| `/mw link <nether\|end> <from> <to>` | Link portals between worlds |
+| `/mw unlink <nether\|end> <world>` | Back to vanilla portal behaviour |
+| `/mw reload` | Reload `config.yml`, `messages.yml` and `worlds.yml` |
+
+### World settings (`/mw modify`)
+
+| Setting | Values |
+|---|---|
+| `alias` | display name, or `none` |
+| `gamemode` | `survival` `creative` `adventure` `spectator` `none` |
+| `difficulty` | `peaceful` `easy` `normal` `hard` `none` |
+| `pvp` `hunger` `weather` `animals` `monsters` | `true` / `false` |
+| `hidden` | hide from `/mw list` |
+| `access-permission` | require `multiworld.access.<world>` |
+| `respawn-world` | a world name, or `none` |
+| `auto-load` | load on startup |
+
+### Examples
+
+```
+/mw create skyblock normal -t void
+/mw create resource normal -s 12345 -n
+/mw create resource_nether nether
+/mw link nether resource resource_nether
+/mw modify skyblock pvp false
+/mw modify event gamemode adventure
+/mw modify event access-permission true
+```
+
+## 🔑 Permissions
+
+| Permission | Default | Description |
+|---|---|---|
+| `multiworld.admin` | op | Everything below, plus all management commands |
+| `multiworld.command.tp` | op | `/mw tp <world>` |
+| `multiworld.command.tp.others` | op | `/mw tp <world> <player>` |
+| `multiworld.command.spawn` | op | `/mw spawn` |
+| `multiworld.command.spawn.others` | op | `/mw spawn <player>` |
+| `multiworld.command.list` / `.info` / `.who` | op | Info commands |
+| `multiworld.access.<world>` / `multiworld.access.*` | op | Enter access-locked worlds |
+| `multiworld.gamemode.bypass` | op | Keep your gamemode when changing worlds |
+| `multiworld.seehidden` | op | See hidden worlds in `/mw list` |
+
+## 🛠 Configuration
+
+`config.yml`
+```yaml
+runtime-loading: true      # load new worlds instantly (false = load after next restart)
+respawn:
+  use-bed: true            # beds / anchors win over a world's respawn-world
+join:
+  world: ""                # send joining players to this world's spawn
+  first-join-only: true
+portals:
+  nether-delay-ticks: 80   # time in a linked nether portal (creative = instant)
+```
+
+Per-world settings are stored in `worlds.yml`. Messages are in `messages.yml`.
+
+## ⚠️ Folia limitations
+
+- **No live unloading.** Folia cannot safely unload a world while the server runs. `/mw delete` moves players out and deletes the files on the next restart. `/mw remove` stops managing a world from the next restart.
+- **Version-bound.** World loading uses server internals, so every Folia version needs a matching build of this plugin. If a new world fails to load instantly, set `runtime-loading: false`; worlds then load during startup, which is the most reliable path.
+
+## 🧱 Building
+
+GitHub Actions builds every push to `main`:
+- each build is published as a release
+- the newest jar is always on the [`dist` branch](https://github.com/barnifbx/MultiWorld-Core/tree/dist)
+
+To build locally (needs Java 25 and Gradle 9):
+
+```
+gradle build
+```
+
+The jar ends up in `build/libs/`.
+
+## 📜 Credits
+
+- World creation on Folia is adapted from [MoreFoWorld](https://github.com/Folia-Inquisitors/MoreFoWorld) (MIT). See [`THIRD-PARTY-NOTICES.md`](THIRD-PARTY-NOTICES.md).
+- Command design inspired by [Multiverse-Core](https://github.com/Multiverse/Multiverse-Core). No Multiverse code is used.
+
+<div align="center">
+
+**Created by the FlowSMP Team AKA FlowStudios** · [flowsmp.net](https://flowsmp.net) · [Discord](https://dc.flowsmp.net)
+
+</div>
