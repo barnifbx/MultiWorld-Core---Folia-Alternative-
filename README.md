@@ -10,7 +10,7 @@ Create, import and manage as many worlds as you want on a Folia server, with per
 ![Java](https://img.shields.io/badge/Java-21%20%7C%2025-orange?style=for-the-badge)
 ![Build](https://img.shields.io/github/actions/workflow/status/barnifbx/MultiWorld-Core---Folia-Alternative-/build.yml?style=for-the-badge&label=build)
 
-*Created by the FlowSMP Team AKA FlowStudios. Made for [FlowSMP](https://flowsmp.net).*
+*Created by the FlowSMP Team AKA FlowStudios. [FlowSMP](https://store.flowsmp.net).*
 
 [**⬇ Downloads**](#-downloads) · [Releases](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/releases)
 
@@ -169,6 +169,6 @@ gradle build -Pmc=26.1.2
 
 <div align="center">
 
-**Created by the FlowSMP Team AKA FlowStudios** · [flowsmp.net](https://flowsmp.net) · [Discord](https://dc.flowsmp.net)
+**Created by the FlowSMP Team AKA FlowStudios** · [flowsmp.net](https://store.flowsmp.net) · [Discord](https://dc.flowsmp.net)
 
 </div>
