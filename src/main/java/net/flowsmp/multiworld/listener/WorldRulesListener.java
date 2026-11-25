@@ -128,6 +128,27 @@ public final class WorldRulesListener implements Listener {
         else if (!we.animals && e.getEntity() instanceof Animals) e.setCancelled(true);
     }
 
+    /** Bed / anchor check that works on every supported API version without loading chunks. */
+    private static boolean hasRespawnPoint(Player p) {
+        for (String m : new String[]{"getPotentialRespawnLocation", "getRespawnLocation"}) {
+            try {
+                java.lang.reflect.Method method;
+                Object loc;
+                try {
+                    method = p.getClass().getMethod(m, boolean.class);
+                    loc = method.invoke(p, false);
+                } catch (NoSuchMethodException ex) {
+                    method = p.getClass().getMethod(m);
+                    if (m.equals("getRespawnLocation")) continue; // would load and validate chunks
+                    loc = method.invoke(p);
+                }
+                return loc != null;
+            } catch (ReflectiveOperationException ignored) {
+            }
+        }
+        return false;
+    }
+
     // ───────── respawn (Folia's respawn API is unreliable, so players are moved right after respawning)
     @EventHandler(priority = EventPriority.MONITOR)
     public void onDeath(PlayerDeathEvent e) {
@@ -140,7 +161,7 @@ public final class WorldRulesListener implements Listener {
         else if (!we.builtin) target = died;
         else return;
         if (target == null) return;
-        if (plugin.getConfig().getBoolean("respawn.use-bed", true) && p.getRespawnLocation(false) != null) return;
+        if (plugin.getConfig().getBoolean("respawn.use-bed", true) && hasRespawnPoint(p)) return;
         Location loc = plugin.worlds().spawnOf(target);
         p.getScheduler().runAtFixedRate(plugin, task -> {
             if (p.isDead()) return;

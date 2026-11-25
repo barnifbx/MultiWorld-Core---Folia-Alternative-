@@ -366,7 +366,7 @@ public final class MultiWorldCommand implements BasicCommand {
     }
 
     private void startLoad(CommandSender s, WorldEntry e) {
-        if (!plugin.getConfig().getBoolean("runtime-loading", true)) {
+        if (!plugin.getConfig().getBoolean("runtime-loading", true) || !FoliaWorldLoader.RUNTIME_SAFE) {
             msg().send(s, "create-restart", "world", e.name);
             return;
         }
@@ -677,10 +677,5 @@ public final class MultiWorldCommand implements BasicCommand {
             case "alias" -> List.of("<name>", "none");
             default -> List.of("true", "false");
         };
-    }
-
-    @Override
-    public boolean canUse(CommandSender sender) {
-        return true;
     }
 }

@@ -1,0 +1,85 @@
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
+
+plugins {
+    id 'java'
+    id 'io.papermc.paperweight.userdev' version '2.0.0-beta.21'
+}
+
+group = 'net.flowsmp'
+version = '1.0.0'
+description = 'Created by the FlowSMP Team AKA FlowStudios'
+
+// Folia version to build for: gradle build -Pmc=1.21.4 (default: the 'version' file)
+def serverVersion = (project.findProperty('mc') ?: file('version').text).toString().trim()
+def legacy = serverVersion.startsWith('1.')
+def loaderGroup = serverVersion.startsWith('26.1') ? 'v26_1'
+        : serverVersion.startsWith('26.') ? 'v26_2'
+        : serverVersion == '1.21.11' ? 'v1_21_11'
+        : serverVersion == '1.21.4' ? 'v1_21_4'
+        : 'v1_21_5'
+def javaVersion = legacy ? 21 : 25
+
+sourceSets.main.java.srcDir("versions/${loaderGroup}")
+
+repositories {
+    mavenCentral()
+    maven { name = 'papermc'; url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven { name = 'folia-inquisitors'; url = 'https://folia-inquisitors.github.io/FoliaDevBundle/' }
+    maven { name = 'central-snapshots'; url = 'https://central.sonatype.com/repository/maven-snapshots/' }
+    maven { name = 'sonatype'; url = 'https://oss.sonatype.org/content/groups/public/' }
+}
+
+paperweight {
+    paperweight.setReobfArtifactConfiguration(ReobfArtifactConfiguration.getMOJANG_PRODUCTION())
+}
+
+configurations.configureEach {
+    resolutionStrategy.capabilitiesResolution.withCapability('com.destroystokyo.paper:paper-mojangapi') {
+        select(candidates.first())
+    }
+}
+
+dependencies {
+    if (legacy) {
+        paperweight.foliaDevBundle("${serverVersion}-R0.1-SNAPSHOT")
+    } else {
+        def foliaLocal = "${serverVersion}.local-SNAPSHOT"
+        def foliaBuild = "${serverVersion}.build.+"
+        if (hasArtifact("dev.folia:dev-bundle:${foliaBuild}@zip")) {
+            paperweight.foliaDevBundle(foliaBuild)
+        } else {
+            paperweight.foliaDevBundle(foliaLocal)
+        }
+    }
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(javaVersion)
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = javaVersion
+}
+
+processResources {
+    def props = [version: version, apiVersion: serverVersion, description: project.description]
+    inputs.properties props
+    filteringCharset 'UTF-8'
+    filesMatching('paper-plugin.yml') { expand props }
+}
+
+jar {
+    archiveFileName = "MultiWorld-Core-${version}-folia-${serverVersion}.jar"
+}
+
+boolean hasArtifact(String notation) {
+    try {
+        return !configurations.detachedConfiguration(dependencies.create(notation)).with {
+            transitive = false
+            resolvedConfiguration.lenientConfiguration.artifacts
+        }.isEmpty()
+    } catch (Exception ignored) {
+        return false
+    }
+}

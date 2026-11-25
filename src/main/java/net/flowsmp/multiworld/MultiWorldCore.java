@@ -34,7 +34,8 @@ public final class MultiWorldCore extends JavaPlugin {
         getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, e ->
                 e.registrar().register("multiworld", "MultiWorld-Core world manager", List.of("mw", "mwc", "mv"), cmd));
 
-        getLogger().info("MultiWorld-Core enabled — managing " + worlds.all().size() + " worlds. Created by the FlowSMP Team AKA FlowStudios");
+        getLogger().info("MultiWorld-Core enabled for Folia " + net.flowsmp.multiworld.world.FoliaWorldLoader.TARGET + " — managing " + worlds.all().size() + " worlds. Created by the FlowSMP Team AKA FlowStudios");
+        if (!net.flowsmp.multiworld.world.FoliaWorldLoader.RUNTIME_SAFE) getLogger().info("On this Folia version new worlds are loaded during the next startup.");
     }
 
     @Override
