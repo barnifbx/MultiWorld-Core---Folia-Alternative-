@@ -19,8 +19,12 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '9.4.1'
+      - name: Show available dev bundles
+        run: |
+          curl -s https://repo.papermc.io/repository/maven-public/dev/folia/dev-bundle/maven-metadata.xml | grep -o '<version>26[^<]*' | tail -5 || true
+          curl -s https://folia-inquisitors.github.io/FoliaDevBundle/dev/folia/dev-bundle/maven-metadata.xml | grep -o '<version>26[^<]*' | tail -5 || true
       - name: Build
-        run: gradle build --no-daemon --stacktrace
+        run: gradle build --no-daemon
       - uses: actions/upload-artifact@v4
         with:
           name: MultiWorld-Core

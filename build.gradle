@@ -14,11 +14,9 @@ def serverVersion = file('version').text.trim()
 repositories {
     mavenCentral()
     maven { name = 'papermc'; url = 'https://repo.papermc.io/repository/maven-public/' }
-    maven {
-        name = 'folia-inquisitors'
-        url = 'https://folia-inquisitors.github.io/FoliaDevBundle/'
-        content { includeGroup 'dev.folia' }
-    }
+    maven { name = 'folia-inquisitors'; url = 'https://folia-inquisitors.github.io/FoliaDevBundle/' }
+    maven { name = 'central-snapshots'; url = 'https://central.sonatype.com/repository/maven-snapshots/' }
+    maven { name = 'sonatype'; url = 'https://oss.sonatype.org/content/groups/public/' }
 }
 
 paperweight {
@@ -34,10 +32,10 @@ configurations.configureEach {
 dependencies {
     def foliaLocal = "${serverVersion}.local-SNAPSHOT"
     def foliaBuild = "${serverVersion}.build.+"
-    if (hasArtifact("dev.folia:dev-bundle:${foliaLocal}@zip")) {
-        paperweight.foliaDevBundle(foliaLocal)
-    } else {
+    if (hasArtifact("dev.folia:dev-bundle:${foliaBuild}@zip")) {
         paperweight.foliaDevBundle(foliaBuild)
+    } else {
+        paperweight.foliaDevBundle(foliaLocal)
     }
 }
 
