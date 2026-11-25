@@ -13,8 +13,12 @@ def serverVersion = file('version').text.trim()
 
 repositories {
     mavenCentral()
-    maven { name = 'folia-inquisitors'; url = 'https://folia-inquisitors.github.io/FoliaDevBundle/' }
     maven { name = 'papermc'; url = 'https://repo.papermc.io/repository/maven-public/' }
+    maven {
+        name = 'folia-inquisitors'
+        url = 'https://folia-inquisitors.github.io/FoliaDevBundle/'
+        content { includeGroup 'dev.folia' }
+    }
 }
 
 paperweight {
