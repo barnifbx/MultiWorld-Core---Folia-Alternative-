@@ -29,6 +29,17 @@ jobs:
         with:
           name: MultiWorld-Core
           path: build/libs/MultiWorld-Core-*.jar
+      - name: Store jar on dist branch
+        run: |
+          cp build/libs/MultiWorld-Core-*.jar /tmp/MultiWorld-Core.jar
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git checkout --orphan dist
+          git rm -rf . -q
+          cp /tmp/MultiWorld-Core.jar MultiWorld-Core.jar
+          git add MultiWorld-Core.jar
+          git commit -q -m "MultiWorld-Core jar from build ${{ github.run_number }}"
+          git push -f -q origin dist
       - name: Publish release
         uses: softprops/action-gh-release@v2
         with:
