@@ -6,13 +6,13 @@
 
 Create, import and manage as many worlds as you want on a Folia server, with per-world rules, linked portals and clickable chat menus.
 
-![Folia](https://img.shields.io/badge/Folia-26.1.2-FF00BA?style=for-the-badge)
-![Java](https://img.shields.io/badge/Java-25-orange?style=for-the-badge)
-![Build](https://img.shields.io/github/actions/workflow/status/barnifbx/MultiWorld-Core/build.yml?style=for-the-badge&label=build)
+![Folia](https://img.shields.io/badge/Folia-1.21.4%20→%2026.3-FF00BA?style=for-the-badge)
+![Java](https://img.shields.io/badge/Java-21%20%7C%2025-orange?style=for-the-badge)
+![Build](https://img.shields.io/github/actions/workflow/status/barnifbx/MultiWorld-Core---Folia-Alternative-/build.yml?style=for-the-badge&label=build)
 
 *Created by the FlowSMP Team AKA FlowStudios. Made for [FlowSMP](https://flowsmp.net).*
 
-[**⬇ Download the latest jar**](https://github.com/barnifbx/MultiWorld-Core/raw/dist/MultiWorld-Core.jar) · [Releases](https://github.com/barnifbx/MultiWorld-Core/releases)
+[**⬇ Downloads**](#-downloads) · [Releases](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/releases)
 
 </div>
 
@@ -36,13 +36,33 @@ MultiWorld-Core creates worlds through Folia's own server internals. Everything 
 | 💬 **Clickable chat** | Click a world in `/mw list` to teleport. Click to confirm deletion. Every message can be edited in `messages.yml` (hex colors supported). |
 | 🧵 **Folia-safe** | Region, entity and global schedulers are used everywhere. Players are never touched from the wrong thread. |
 
-## 📥 Installation
+## 📥 Downloads
 
-1. Download [`MultiWorld-Core.jar`](https://github.com/barnifbx/MultiWorld-Core/raw/dist/MultiWorld-Core.jar).
+Folia changes its internals with every Minecraft version, so there is **one jar per Folia version**. Pick the jar that matches your server:
+
+| Folia version | Download | Java | New worlds load |
+|---|---|---|---|
+| **26.3** | [MultiWorld-Core-1.0.0-folia-26.3.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-26.3.jar) | 25 | instantly |
+| **26.2** | [MultiWorld-Core-1.0.0-folia-26.2.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-26.2.jar) | 25 | instantly |
+| **26.1.2** | [MultiWorld-Core-1.0.0-folia-26.1.2.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-26.1.2.jar) | 25 | instantly |
+| **1.21.11** | [MultiWorld-Core-1.0.0-folia-1.21.11.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-1.21.11.jar) | 21 | instantly |
+| **1.21.8** | [MultiWorld-Core-1.0.0-folia-1.21.8.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-1.21.8.jar) | 21 | after restart |
+| **1.21.7** | [MultiWorld-Core-1.0.0-folia-1.21.7.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-1.21.7.jar) | 21 | after restart |
+| **1.21.6** | [MultiWorld-Core-1.0.0-folia-1.21.6.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-1.21.6.jar) | 21 | after restart |
+| **1.21.5** | [MultiWorld-Core-1.0.0-folia-1.21.5.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-1.21.5.jar) | 21 | after restart |
+| **1.21.4** | [MultiWorld-Core-1.0.0-folia-1.21.4.jar](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/raw/dist/MultiWorld-Core-1.0.0-folia-1.21.4.jar) | 21 | after restart |
+
+All jars are also attached to every [release](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/releases).
+
+> **"After restart"**: before 1.21.11, Folia has to preload the spawn area of a new world. That only works while the server starts, so on these versions `/mw create`, `/mw import` and `/mw load` save the world, and it loads on the next restart. Everything else works the same.
+
+## 🚀 Installation
+
+1. Download the jar for **your** Folia version from the table above.
 2. Put it in your server's `plugins/` folder.
 3. Restart the server. Your existing worlds are registered automatically.
 
-**Requires:** Folia **26.1.2** and Java 25.
+The startup log shows which version the jar was built for: `MultiWorld-Core enabled for Folia 26.1.x`.
 
 ## 🧭 Commands
 
@@ -125,21 +145,22 @@ Per-world settings are stored in `worlds.yml`. Messages are in `messages.yml`.
 ## ⚠️ Folia limitations
 
 - **No live unloading.** Folia cannot safely unload a world while the server runs. `/mw delete` moves players out and deletes the files on the next restart. `/mw remove` stops managing a world from the next restart.
-- **Version-bound.** World loading uses server internals, so every Folia version needs a matching build of this plugin. If a new world fails to load instantly, set `runtime-loading: false`; worlds then load during startup, which is the most reliable path.
+- **Version-bound.** World loading uses server internals, so each Folia version needs its own jar (see [Downloads](#-downloads)). Using the wrong jar will fail on startup.
+- If a new world ever fails to load instantly, set `runtime-loading: false`. Worlds then load during startup, which is the most reliable path.
 
 ## 🧱 Building
 
-GitHub Actions builds every push to `main`:
+GitHub Actions builds every push to `main` for all supported Folia versions at once:
 - each build is published as a release
-- the newest jar is always on the [`dist` branch](https://github.com/barnifbx/MultiWorld-Core/tree/dist)
+- the newest jars are always on the [`dist` branch](https://github.com/barnifbx/MultiWorld-Core---Folia-Alternative-/tree/dist)
 
-To build locally (needs Java 25 and Gradle 9):
+To build locally (needs Gradle 9, plus Java 21 for 1.21.x or Java 25 for 26.x):
 
 ```
-gradle build
+gradle build -Pmc=26.1.2
 ```
 
-The jar ends up in `build/libs/`.
+`-Pmc` picks the Folia version. The version-specific world loaders are in [`versions/`](versions). The jar ends up in `build/libs/`.
 
 ## 📜 Credits
 
