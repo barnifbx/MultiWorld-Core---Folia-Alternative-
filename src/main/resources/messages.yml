@@ -1,0 +1,57 @@
+# MultiWorld-Core messages — Created by the FlowSMP Team AKA FlowStudios
+# Colors: &a, &l ... and hex colors like &#FF00BA
+
+prefix: "&#FF00BA&lᴍᴜʟᴛɪᴡᴏʀʟᴅ &8» &7"
+
+no-permission: "&cYou don't have permission to do that."
+players-only: "&cOnly players can use this."
+unknown-world: "&7The world &#FF00BA{world} &7does not exist."
+unknown-player: "&7The player &#FF00BA{player} &7is not online."
+invalid-name: "&7World names may only use &#FF00BAa-z 0-9 _ - &7(max 32)."
+invalid-env: "&7Unknown environment &#FF00BA{value}&7. Use &#FF00BAnormal&7, &#FF00BAnether &7or &#FF00BAend&7."
+invalid-type: "&7Unknown world type &#FF00BA{value}&7. Use &#FF00BA{types}&7."
+already-exists: "&7The world &#FF00BA{world} &7already exists."
+usage: "&7Usage: &#FF00BA{usage}"
+
+create-start: "&7Creating &#FF00BA{world}&7... this can take a moment."
+create-done: "&7The world &#FF00BA{world} &7is ready! &#FF00BA&nᴄʟɪᴄᴋ&f to teleport"
+create-failed: "&cCould not load {world}: {error}. &7It is saved and will be loaded after the next restart."
+create-restart: "&7The world &#FF00BA{world} &7was saved and will be &#FF00BAloaded after the next restart&7."
+import-missing: "&7No world folder named &#FF00BA{world} &7was found. Upload it into your server folder first."
+load-done: "&7Loaded &#FF00BA{world}&7."
+already-loaded: "&7The world &#FF00BA{world} &7is already loaded."
+
+remove-done: "&7&#FF00BA{world} &7is no longer managed. It stays loaded until the next restart and its files are kept."
+delete-confirm: "&cThis deletes {world} forever! &#FF00BA&nᴄʟɪᴄᴋ&f or type &#FF00BA/mw confirm &7within 15 seconds."
+delete-done: "&7All players were moved out. &#FF00BA{world} &7will be &cdeleted &7when the server restarts."
+cannot-delete-main: "&cThe main world can't be deleted or removed."
+confirm-nothing: "&7There is nothing to confirm."
+
+teleport: "&7Teleporting to &#FF00BA{world}&7..."
+teleport-other: "&7Teleporting &#FF00BA{player} &7to &#FF00BA{world}&7..."
+no-access: "&7You don't have access to &#FF00BA{world}&7."
+setspawn: "&7Spawn of &#FF00BA{world} &7set to your position."
+modify-done: "&7Set &#FF00BA{property} &7of &#FF00BA{world} &7to &#FF00BA{value}&7."
+modify-unknown: "&7Unknown property. Use: &#FF00BA{properties}"
+modify-bad-value: "&7Invalid value &#FF00BA{value} &7for &#FF00BA{property}&7."
+gamerule-done: "&7Gamerule &#FF00BA{rule} &7in &#FF00BA{world} &7is now &#FF00BA{value}&7."
+gamerule-unknown: "&7Unknown gamerule &#FF00BA{rule}&7."
+link-done: "&#FF00BA{type} &7portals in &#FF00BA{from} &7now lead to &#FF00BA{to}&7."
+unlink-done: "&#FF00BA{type} &7portals in &#FF00BA{world} &7use vanilla behaviour again."
+reload: "&7Configuration reloaded."
+
+list-title: "&#FF00BA&lᴡᴏʀʟᴅѕ &8({count})"
+list-line: " &8• &#FF00BA{world} &8| &7{env} &8| &7{players} ᴘʟᴀʏᴇʀѕ{status}"
+list-unloaded: " &8| &cᴜɴʟᴏᴀᴅᴇᴅ"
+list-hidden: " &8| &8ʜɪᴅᴅᴇɴ"
+click-hover-tp: "&#FF00BA&nᴄʟɪᴄᴋ&f to teleport to {world}"
+click-hover-confirm: "&#FF00BA&nᴄʟɪᴄᴋ&f to confirm"
+
+info-title: "&#FF00BA&l{world} &8— &7ᴡᴏʀʟᴅ ɪɴꜰᴏ"
+info-line: " &8• &7{label}&8: &#FF00BA{value}"
+who-title: "&#FF00BA&lᴘʟᴀʏᴇʀѕ ɪɴ {world} &8({count})"
+who-line: " &8• &f{players}"
+who-none: " &8• &7Nobody is here."
+
+help-title: "&#FF00BA&lᴍᴜʟᴛɪᴡᴏʀʟᴅ-ᴄᴏʀᴇ &8— &7ʜᴇʟᴘ"
+help-line: " &#FF00BA{cmd} &8» &7{desc}"

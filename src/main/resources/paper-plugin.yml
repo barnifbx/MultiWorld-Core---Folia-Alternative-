@@ -1,0 +1,55 @@
+name: MultiWorld-Core
+version: '${version}'
+main: net.flowsmp.multiworld.MultiWorldCore
+api-version: '${apiVersion}'
+load: POSTWORLD
+authors: [ FlowStudios ]
+description: '${description}'
+website: https://flowsmp.net
+folia-supported: true
+
+permissions:
+  multiworld.admin:
+    description: All MultiWorld-Core commands
+    default: op
+    children:
+      multiworld.command.tp: true
+      multiworld.command.tp.others: true
+      multiworld.command.spawn: true
+      multiworld.command.spawn.others: true
+      multiworld.command.list: true
+      multiworld.command.info: true
+      multiworld.command.who: true
+      multiworld.access.*: true
+      multiworld.gamemode.bypass: true
+      multiworld.seehidden: true
+  multiworld.command.tp:
+    description: /mw tp <world>
+    default: op
+  multiworld.command.tp.others:
+    description: /mw tp <world> <player>
+    default: op
+  multiworld.command.spawn:
+    description: /mw spawn
+    default: op
+  multiworld.command.spawn.others:
+    description: /mw spawn <player>
+    default: op
+  multiworld.command.list:
+    description: /mw list
+    default: op
+  multiworld.command.info:
+    description: /mw info
+    default: op
+  multiworld.command.who:
+    description: /mw who
+    default: op
+  multiworld.access.*:
+    description: Enter every world that has access protection enabled
+    default: op
+  multiworld.gamemode.bypass:
+    description: Keep your own gamemode when changing worlds
+    default: op
+  multiworld.seehidden:
+    description: See hidden worlds in /mw list
+    default: op

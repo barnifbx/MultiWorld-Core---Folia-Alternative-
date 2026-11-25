@@ -1,0 +1,21 @@
+# MultiWorld-Core — Created by the FlowSMP Team AKA FlowStudios
+# Per-world settings are stored in worlds.yml (use /mw modify).
+
+# Load new worlds immediately with /mw create, /mw import and /mw load.
+# If this ever causes problems on your Folia build, set it to false:
+# worlds are then saved and loaded on the next restart instead.
+runtime-loading: true
+
+respawn:
+  # Players that have a bed / respawn anchor respawn there instead of the world's respawn-world.
+  use-bed: true
+
+join:
+  # Send players to a world's spawn when they join. Leave empty to disable.
+  # first-join-only: only for players that never played before.
+  world: ""
+  first-join-only: true
+
+portals:
+  # Ticks a player must stand in a linked nether portal (vanilla = 80). Creative players teleport instantly.
+  nether-delay-ticks: 80
